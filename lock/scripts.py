@@ -71,3 +71,9 @@ def get_single_server():
         print '%s=%s' % item
 
     print "LOCK=%s" % lock
+
+
+def release():
+    lock, = sys.argv[1:]
+
+    database.release_lock('server.database', lock)

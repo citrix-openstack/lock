@@ -31,7 +31,6 @@ def get_server_by_host():
         except:
             return False
 
-
     server_data, lock = wait_for_first(is_required_server)
 
     for item in server_data.items():
@@ -43,7 +42,6 @@ def get_server_by_host():
 def get_server_pair():
     from lock.getters import wait_for
     from lock.selectors import first_pair_where_vlans_match
-
 
     items, lock = wait_for(first_pair_where_vlans_match)
 
@@ -57,13 +55,11 @@ def get_server_pair():
 def get_single_server():
     from lock.getters import wait_for_first
 
-
     def is_server(item):
         try:
             return bool(item.get("HOST"))
         except:
             return False
-
 
     server_data, lock = wait_for_first(is_server)
 

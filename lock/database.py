@@ -20,11 +20,13 @@ def set_database(filename, contents):
     c = conn.cursor()
 
     c.execute('DROP TABLE IF EXISTS stuff')
-    c.execute('CREATE TABLE stuff (id INTEGER PRIMARY KEY, data TEXT, lock TEXT)')
+    c.execute(
+        'CREATE TABLE stuff (id INTEGER PRIMARY KEY, data TEXT, lock TEXT)')
 
     id = 0
     for record in eval(contents):
-        c.execute('INSERT INTO stuff (id, data, lock) VALUES(:id, :data, :lock)',
+        c.execute(
+            'INSERT INTO stuff (id, data, lock) VALUES(:id, :data, :lock)',
             dict(id=id, data=repr(record), lock=""))
         id += 1
 
@@ -87,15 +89,19 @@ def lock_items(filename, lock, term_generator=None):
 
     term_generator = term_generator or first()
 
+    stmt = 'SELECT id, data FROM stuff WHERE lock = :empty_lock ORDER by id'
     terms_ids_items = []
-    for id, data in c.execute('SELECT id, data FROM stuff WHERE lock = :empty_lock ORDER by id', dict(empty_lock="")).fetchall():
+    for id, data in c.execute(stmt, dict(empty_lock="")).fetchall():
         item = eval(data)
         terms_ids_items.append((term_generator(item), id, item))
 
     results = []
     for term, id, item in terms_ids_items:
         if term():
-            c.execute('UPDATE stuff SET lock = :lock WHERE id = :id', dict(lock=lock, id=id))
+            c.execute(
+                'UPDATE stuff SET lock = :lock WHERE id = :id',
+                dict(lock=lock, id=id)
+            )
             assert c.rowcount == 1
             results.append(item)
 
@@ -122,7 +128,11 @@ def get_locks(filename):
     c = conn.cursor()
 
     locks = []
-    for lock, in c.execute('SELECT DISTINCT(lock) FROM stuff WHERE lock <> :empty_lock ORDER by lock', dict(empty_lock="")).fetchall():
+    stmt = (
+        'SELECT DISTINCT(lock) FROM stuff '
+        'WHERE lock <> :empty_lock ORDER by lock'
+    )
+    for lock, in c.execute(stmt, dict(empty_lock="")).fetchall():
         locks.append(lock)
 
     conn.close()
@@ -148,6 +158,7 @@ def release_lock(filename, lock):
 
     c = conn.cursor()
 
-    c.execute('UPDATE stuff SET lock = :empty_lock WHERE lock = :lock', dict(empty_lock="", lock=lock))
+    stmt = 'UPDATE stuff SET lock = :empty_lock WHERE lock = :lock'
+    c.execute(stmt, dict(empty_lock="", lock=lock))
     conn.commit()
     conn.close()

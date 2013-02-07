@@ -6,10 +6,13 @@ from selectors import first
 
 
 def wait_for(selector_factory):
-    lock = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in range(16))
+    lock = ''.join(
+        random.choice(string.ascii_uppercase + string.digits)
+        for x in range(16))
 
     while True:
-        items = database.lock_items('server.database', lock, selector_factory())
+        items = database.lock_items(
+            'server.database', lock, selector_factory())
         if items:
             break
         time.sleep(1)

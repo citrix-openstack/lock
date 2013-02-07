@@ -8,6 +8,7 @@ setup(
     entry_points={
         'console_scripts': [
             'lock-get-database = lock.scripts:get_database',
+            'lock-set-database = lock.scripts:set_database',
         ]
     }
 )

@@ -12,6 +12,7 @@ setup(
             'lock-list = lock.scripts:list_locks',
             'lock-get-server-by-host = lock.scripts:get_server_by_host',
             'lock-get-server-pair = lock.scripts:get_server_pair',
+            'lock-get-single-server = lock.scripts:get_single_server',
         ]
     }
 )

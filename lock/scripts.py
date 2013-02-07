@@ -52,3 +52,22 @@ def get_server_pair():
             print "%s%s=%s" % (key, idx, value)
 
     print "LOCK=%s" % lock
+
+
+def get_single_server():
+    from lock.getters import wait_for_first
+
+
+    def is_server(item):
+        try:
+            return bool(item.get("HOST"))
+        except:
+            return False
+
+
+    server_data, lock = wait_for_first(is_server)
+
+    for item in server_data.items():
+        print '%s=%s' % item
+
+    print "LOCK=%s" % lock

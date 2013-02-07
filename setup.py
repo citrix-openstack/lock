@@ -5,4 +5,9 @@ setup(
     name="lock",
     version="0.0",
     packages=["lock"],
+    entry_points={
+        'console_scripts': [
+            'lock-get-database = lock.scripts:get_database',
+        ]
+    }
 )

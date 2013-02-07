@@ -12,3 +12,8 @@ def set_database():
 
     with open(servers_dot_py, 'rb') as f:
         database.set_database('server.database', f.read())
+
+
+def list_locks():
+    for lock in database.get_locks('server.database'):
+        print lock

@@ -9,6 +9,7 @@ setup(
         'console_scripts': [
             'lock-get-database = lock.scripts:get_database',
             'lock-set-database = lock.scripts:set_database',
+            'lock-list = lock.scripts:list_locks',
         ]
     }
 )

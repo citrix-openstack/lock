@@ -53,3 +53,8 @@ lock-release $LOCK
 lock-get-server-pair > $OUTPUT
 grep "HOST0=foo" $OUTPUT
 grep "HOST1=bar" $OUTPUT
+
+rm -f "$SERVERS"
+rm -f "$OUTPUT"
+
+echo "ALL tests passed"

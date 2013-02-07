@@ -38,3 +38,17 @@ def get_server_by_host():
         print '%s=%s' % item
 
     print "LOCK=%s" % lock
+
+
+def get_server_pair():
+    from lock.getters import wait_for
+    from lock.selectors import first_pair_where_vlans_match
+
+
+    items, lock = wait_for(first_pair_where_vlans_match)
+
+    for idx, server in enumerate(items):
+        for key, value in server.items():
+            print "%s%s=%s" % (key, idx, value)
+
+    print "LOCK=%s" % lock

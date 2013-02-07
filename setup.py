@@ -10,6 +10,7 @@ setup(
             'lock-get-database = lock.scripts:get_database',
             'lock-set-database = lock.scripts:set_database',
             'lock-list = lock.scripts:list_locks',
+            'lock-get-server-by-host = lock.scripts:get_server_by_host',
         ]
     }
 )
